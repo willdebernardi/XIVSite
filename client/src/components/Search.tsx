@@ -5,7 +5,7 @@ import React from "react";
 function Search() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "60vw" }}>
-      <Typography variant="h1">Female Au Ra {">>>>>"}</Typography>
+      <Typography variant="h1">Female Au Ra {">>>>"}</Typography>
       <form>
         <TextField
           id="search"
