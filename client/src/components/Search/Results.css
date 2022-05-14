@@ -1,0 +1,30 @@
+#NameBox {
+    margin-left: 10px;
+}
+
+#ResultContainer {
+    height: 95vh;
+    margin: 0px 30px 0px 30px;
+}
+
+#SearchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+}
+
+#ItemHeader {
+    max-width: fit-content;
+    margin-bottom: 20px;
+}
+
+#ItemResults {
+    display: flex;
+    gap: 15px;
+}
+
+.itemInfo {
+    text-align: center;
+    flex-grow: 1;
+}
