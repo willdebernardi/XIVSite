@@ -10,6 +10,7 @@ import {
 import { Box } from "@mui/system";
 import Search from "./components/Search";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Header from "./components/Header/Header";
 
 const darkTheme = createTheme({
   palette: {
@@ -21,13 +22,14 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
+      <Header />
       <Grid
         container
         spacing={0}
         direction="column"
         alignItems="center"
         justifyContent="center"
-        sx={{ minHeight: "100vh" }}
+        sx={{ minHeight: "95vh" }}
       >
         <Grid item xs={12}>
           <Search />

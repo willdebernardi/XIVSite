@@ -1,0 +1,14 @@
+header {
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    flex-direction: row;
+    height: 5vh;
+}
+
+.profile {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding-right: 1%;
+}
