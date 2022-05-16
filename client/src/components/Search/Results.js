@@ -6,25 +6,20 @@ import "./Results.css";
 
 const Results = () => {
     const [itemData, setItemData] = useState({});
-    const [itemIcon, setItemIcon] = useState("");
-
-    // let mockItem = {
-    //     name: "Frank's Favorite Ball of Yarn",
-    //     description: "One of the fabled relic weapons.",
-    //     stats: {
-    //         one: { type: "Strength", value: 14 },
-    //         two: { type: "Intellect", value: 23 },
-    //     },
-    // };
-
-    const findIcon = (url) => {
-        return 0;
-    };
+    const [itemIcon, setItemIcon] = useState({});
+    const [itemStats, setItemStats] = useState([]);
 
     useEffect(() => {
-        axios.get("https://xivapi.com/Item/1675").then((res) => {
-            setItemData(res.data);
-        });
+         const fetchItem = async () => {
+            const data = await axios.get("https://xivapi.com/Item/1675");
+            await setItemData(data.data);
+            await setItemIcon("https://xivapi.com".concat(itemData.Icon));
+            await setItemStats(Object.keys(itemData.Stats));
+
+            console.log(itemStats);
+         }
+
+         fetchItem().catch(console.log);
     }, []);
 
     return (
@@ -45,8 +40,9 @@ const Results = () => {
                 <div className="itemInfo">
                     <Typography variant="h4">Description</Typography>
                     <Typography variant="body1">
-                        Lorem ipsum dolor sit amet
+                        {itemData.Description}
                     </Typography>
+                    {itemStats.map(key => <Typography variant="body1">{key}: {itemData.Stats[key].NQ}</Typography>)}
                 </div>
                 <div className="itemInfo">
                     <Typography variant="h4">Location</Typography>
