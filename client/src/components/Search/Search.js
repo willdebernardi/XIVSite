@@ -1,21 +1,16 @@
 import { Box, TextField, Typography, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import Results from "./Results";
+import React from "react";
 import "./Results.css"
 
-function Search() {
-    const [val, setVal] = useState("");
-
-    const handleSubmit = (event) => {};
-
+function Search(props) {
     return (
         <div id="SearchContainer">
             <Box
                 sx={{ display: "flex", flexDirection: "column", width: "60vw" }}
             >
                 <Typography variant="h1">Female Au Ra {">>>"}</Typography>
-                <form>
+                <form onSubmit={props.submitFunc}>
                     <TextField
                         id="search"
                         type="search"
@@ -29,7 +24,7 @@ function Search() {
                             ),
                         }}
                         autoComplete="off"
-                        onChange={(e) => setVal(e.target.value)}
+                        onChange={(e) => props.setVal(e.target.value)}
                     />
                 </form>
             </Box>

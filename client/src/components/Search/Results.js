@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Results.css";
 
-const Results = () => {
+const Results = (props) => {
     const [itemData, setItemData] = useState({});
     const [itemIcon, setItemIcon] = useState({});
     const [itemStats, setItemStats] = useState([]);
@@ -13,7 +13,8 @@ const Results = () => {
 
     useEffect(() => {
         const fetchItem = async () => {
-            const data = await axios.get("https://xivapi.com/Item/1675");
+            console.log(props.itemID)
+            const data = await axios.get(`https://xivapi.com/Item/` + props.itemID);
             setItemData(data.data);
             setFirstRender(false);
         }
@@ -23,7 +24,9 @@ const Results = () => {
     useEffect(() => {
         if(!firstRender) {
             setItemIcon("https://xivapi.com".concat(itemData.Icon));
-            setItemStats(Object.keys(itemData.Stats));
+            if (itemData.Stats) {
+                setItemStats(Object.keys(itemData.Stats));
+            }
         }
     }, [itemData]);
 
