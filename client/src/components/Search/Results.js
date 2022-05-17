@@ -25,7 +25,7 @@ const Results = () => {
             setItemIcon("https://xivapi.com".concat(itemData.Icon));
             setItemStats(Object.keys(itemData.Stats));
         }
-    }, [itemData]);
+    }, [itemData])
 
     return (
         <div id="ResultContainer">
