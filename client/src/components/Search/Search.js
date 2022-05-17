@@ -12,13 +12,13 @@ function Search() {
 
     const searchItemID = (event) => {
         event.preventDefault();
-        let item = val.toLowerCase();
+        let searchItem = val.toLowerCase();
 
-        axios.get(`https://xivapi.com/search?string=` + item).then((res) => {
+        axios.get(`https://xivapi.com/search?string=` + searchItem).then((res) => {
             const keys = Object.keys(res.data.Results);
             keys.map((result) => {
                 let item = res.data.Results[result];
-                if (item.Name.toLowerCase() == item) {
+                if (item.Name.toLowerCase() == searchItem) {
                     setItemID(item.ID);
                 }
             });
