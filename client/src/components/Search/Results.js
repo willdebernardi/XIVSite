@@ -9,18 +9,23 @@ const Results = () => {
     const [itemIcon, setItemIcon] = useState({});
     const [itemStats, setItemStats] = useState([]);
 
+    const [firstRender, setFirstRender] = useState(true);
+
     useEffect(() => {
-         const fetchItem = async () => {
+        const fetchItem = async () => {
             const data = await axios.get("https://xivapi.com/Item/1675");
-            await setItemData(data.data);
-            await setItemIcon("https://xivapi.com".concat(itemData.Icon));
-            await setItemStats(Object.keys(itemData.Stats));
-
-            console.log(itemStats);
-         }
-
-         fetchItem().catch(console.log);
+            setItemData(data.data);
+            setFirstRender(false);
+        }
+        fetchItem();
     }, []);
+
+    useEffect(() => {
+        if(!firstRender) {
+            setItemIcon("https://xivapi.com".concat(itemData.Icon));
+            setItemStats(Object.keys(itemData.Stats));
+        }
+    }, [itemData])
 
     return (
         <div id="ResultContainer">
