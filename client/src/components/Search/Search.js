@@ -1,4 +1,10 @@
-import { Box, TextField, Typography, InputAdornment, Divider } from "@mui/material";
+import {
+    Box,
+    TextField,
+    Typography,
+    InputAdornment,
+    Divider,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
 import "./Results.css";
@@ -14,22 +20,26 @@ function Search() {
         event.preventDefault();
         let searchItem = val.toLowerCase();
 
-        axios.get(`https://xivapi.com/search?string=` + searchItem).then((res) => {
-            const keys = Object.keys(res.data.Results);
-            keys.map((result) => {
-                let item = res.data.Results[result];
-                if (item.Name.toLowerCase() == searchItem) {
-                    setItemID(item.ID);
-                }
+        axios
+            .get(`https://xivapi.com/search?string=` + searchItem)
+            .then((res) => {
+                const keys = Object.keys(res.data.Results);
+                keys.map((result) => {
+                    let item = res.data.Results[result];
+                    if (item.Name.toLowerCase() == searchItem) {
+                        setItemID(item.ID);
+                    }
+                });
+                setSearch(true);
             });
-            setSearch(true);
-        });
     };
 
     if (didSearch) {
-        return <Results itemID={itemID} />
+        return <Results itemID={itemID} />;
     } else {
-        return <SearchBox submitFunc={searchItemID} val={val} setVal={setVal} />
+        return (
+            <SearchBox submitFunc={searchItemID} val={val} setVal={setVal} />
+        );
     }
 }
 
@@ -66,15 +76,14 @@ function Results(props) {
     const [itemData, setItemData] = useState({});
     const [itemIcon, setItemIcon] = useState({});
     const [itemStats, setItemStats] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [firstRender, setFirstRender] = useState(true);
 
     useEffect(() => {
         const fetchItem = async () => {
             console.log(props.itemID);
-            const data = await axios.get(
-                `https://xivapi.com/Item/` + props.itemID
-            );
+            const data = await axios.get(`https://xivapi.com/Item/` + props.itemID);
             setItemData(data.data);
             setFirstRender(false);
         };
@@ -87,44 +96,55 @@ function Results(props) {
             if (itemData.Stats) {
                 setItemStats(Object.keys(itemData.Stats));
             }
+            setIsLoading(false);
         }
     }, [itemData]);
 
-    return (
-        <div id="ResultContainer">
-            <div id="ItemHeader">
-                <Box
-                    sx={{ display: "flex", alignItems: "center" }}
-                    id="ItemName"
-                >
-                    <img src={itemIcon} width="50" height="50"></img>
-                    <Box id="NameBox">
-                        <Typography variant="h3">{itemData.Name}</Typography>
+    if (isLoading) {
+        return (
+            <div className="loadingContainer">
+                <Typography varinat="h1">Loading...</Typography>
+            </div>
+        );
+    } else {
+        return (
+            <div id="ResultContainer">
+                <div id="ItemHeader">
+                    <Box
+                        sx={{ display: "flex", alignItems: "center" }}
+                        id="ItemName"
+                    >
+                        <img src={itemIcon} width="50" height="50"></img>
+                        <Box id="NameBox">
+                            <Typography variant="h3">
+                                {itemData.Name}
+                            </Typography>
+                        </Box>
                     </Box>
-                </Box>
-                <Divider />
-            </div>
-            <div id="ItemResults">
-                <div className="itemInfo">
-                    <Typography variant="h4">Description</Typography>
-                    <Typography variant="body1">
-                        {itemData.Description}
-                    </Typography>
-                    {itemStats.map((key) => (
+                    <Divider />
+                </div>
+                <div id="ItemResults">
+                    <div className="itemInfo">
+                        <Typography variant="h4">Description</Typography>
                         <Typography variant="body1">
-                            {key}: {itemData.Stats[key].NQ}
+                            {itemData.Description}
                         </Typography>
-                    ))}
-                </div>
-                <div className="itemInfo">
-                    <Typography variant="h4">Location</Typography>
-                    <Typography variant="body1">
-                        Blah blah blah three
-                    </Typography>
+                        {itemStats.map((key) => (
+                            <Typography variant="body1">
+                                {key}: {itemData.Stats[key].NQ}
+                            </Typography>
+                        ))}
+                    </div>
+                    <div className="itemInfo">
+                        <Typography variant="h4">Location</Typography>
+                        <Typography variant="body1">
+                            Blah blah blah three
+                        </Typography>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default Search;
