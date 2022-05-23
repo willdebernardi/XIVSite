@@ -28,3 +28,9 @@
     text-align: center;
     flex-grow: 1;
 }
+
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
