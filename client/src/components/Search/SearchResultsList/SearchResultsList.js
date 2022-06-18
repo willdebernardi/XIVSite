@@ -1,12 +1,17 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
+import ResultsCard from "./ResultsCard";
 
 function SearchResultsList(props) {
-    return <Grid container columns={3}>
-        {props.Results.forEach((item) => {
-            <ResultsCard item={item} />
-        })}
-    </Grid>;
+    let resultsCards = props.results.map(item => {
+        return <ResultsCard item={item} />
+    })
+
+    return (
+        <Grid container columns={3}>
+            {resultsCards}
+        </Grid>
+    )
 }
 
 export default SearchResultsList;

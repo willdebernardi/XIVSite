@@ -1,6 +1,7 @@
-import React from "React";
-import Grid from "@mui/icons-material/Grid";
+import React from "react";
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+
 import {
     Avatar,
     Button,
@@ -12,7 +13,7 @@ import {
 function ResultsCard(props) {
     return (
         <Grid item>
-            <Card sx={{ maxWdith: 345 }}>
+            <Card>
                 <CardActionArea>
                     <CardHeader
                         title={props.item.Name}
