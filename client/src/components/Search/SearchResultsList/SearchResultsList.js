@@ -8,7 +8,7 @@ function SearchResultsList(props) {
     })
 
     return (
-        <Grid container columns={3}>
+        <Grid container columns={3} spacing={1}>
             {resultsCards}
         </Grid>
     )

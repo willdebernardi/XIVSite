@@ -12,7 +12,7 @@ import {
 
 function ResultsCard(props) {
     return (
-        <Grid item>
+        <Grid item xs={1}>
             <Card>
                 <CardActionArea>
                     <CardHeader
