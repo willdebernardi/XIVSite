@@ -10,11 +10,14 @@ import React from "react";
 import "./Results.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import SearchResultsList from "./SearchResultsList/SearchResultsList";
 
 function Search() {
-    const [didSearch, setSearch] = useState(false);
+    const [didSearch, setDidSearch] = useState(false);
+    const [results, setResults] = useState();
     const [itemID, setItemID] = useState("");
     const [val, setVal] = useState("");
+    const [exactMatch, setExactMatch] = useState(false);
 
     const searchItemID = (event) => {
         event.preventDefault();
@@ -23,19 +26,28 @@ function Search() {
         axios
             .get(`https://xivapi.com/search?string=` + searchItem)
             .then((res) => {
+                setResults(res.data.Results);
                 const keys = Object.keys(res.data.Results);
-                keys.map((result) => {
-                    let item = res.data.Results[result];
-                    if (item.Name.toLowerCase() == searchItem) {
+                for (var i = 0; i < keys.length; i++) {
+                    let item = res.data.Results[keys[i]];
+                    if (
+                        item.Name.toLowerCase() === searchItem &&
+                        item.UrlType.toLowerCase() === "item"
+                    ) {
+                        console.log(item.ID);
                         setItemID(item.ID);
+                        setExactMatch(true);
+                        break;
                     }
-                });
-                setSearch(true);
+                }
+                setDidSearch(true);
             });
     };
 
-    if (didSearch) {
+    if (didSearch && exactMatch) {
         return <Results itemID={itemID} />;
+    } else if (didSearch && !exactMatch) {
+        return <SearchResultsList results={results} />;
     } else {
         return (
             <SearchBox submitFunc={searchItemID} val={val} setVal={setVal} />
@@ -83,7 +95,9 @@ function Results(props) {
     useEffect(() => {
         const fetchItem = async () => {
             console.log(props.itemID);
-            const data = await axios.get(`https://xivapi.com/Item/` + props.itemID);
+            const data = await axios.get(
+                `https://xivapi.com/Item/` + props.itemID
+            );
             setItemData(data.data);
             setFirstRender(false);
         };
