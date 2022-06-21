@@ -37,7 +37,7 @@ function Search() {
                         navigate(`/item/${item.ID}`);
                     }
                 }
-                //TODO: Navigate to item list page
+
                 setDidSearch(true);
             });
     };
