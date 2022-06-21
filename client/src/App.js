@@ -6,6 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Header from "./components/Header/Header";
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ItemResults from "./components/ItemResults/ItemResults";
+import SearchResultsList from "./components/Search/SearchResultsList/SearchResultsList";
 
 const darkTheme = createTheme({
     palette: {
@@ -22,6 +23,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Search />} />
                     <Route path="/item/:id" element={<ItemResults />} />
+                    <Route path="/search/:name" element={<SearchResultsList />} />
                 </Routes>
             </ThemeProvider>
         </Router>
