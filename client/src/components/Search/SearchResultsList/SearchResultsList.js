@@ -36,7 +36,7 @@ function SearchResultsList() {
                     item.Name.toLowerCase() === params.name &&
                     item.UrlType.toLowerCase() === "item"
                 ) {
-                    navigate(`/item/${item.ID}`);
+                    navigate(`/item/${item.ID}`, {replace: true});
                 }
             }
             setIsLoading(false);
