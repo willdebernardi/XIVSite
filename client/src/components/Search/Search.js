@@ -3,28 +3,28 @@ import {
     TextField,
     Typography,
     InputAdornment,
-    Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React from "react";
-import "./Results.css";
-import { useState, useEffect } from "react";
+import "./Search.css";
+import { useState } from "react";
 import axios from "axios";
 import SearchResultsList from "./SearchResultsList/SearchResultsList";
+import { useNavigate } from "react-router-dom";
 
 function Search() {
+    const navigate = useNavigate();
+
     const [didSearch, setDidSearch] = useState(false);
     const [results, setResults] = useState();
-    const [itemID, setItemID] = useState("");
     const [val, setVal] = useState("");
-    const [exactMatch, setExactMatch] = useState(false);
 
     const searchItemID = (event) => {
         event.preventDefault();
         let searchItem = val.toLowerCase();
 
         axios
-            .get(`https://xivapi.com/search?string=` + searchItem)
+            .get(`https://xivapi.com/search?string=${searchItem}`)
             .then((res) => {
                 setResults(res.data.Results);
                 const keys = Object.keys(res.data.Results);
@@ -34,17 +34,15 @@ function Search() {
                         item.Name.toLowerCase() === searchItem &&
                         item.UrlType.toLowerCase() === "item"
                     ) {
-                        console.log(item.ID);
-                        setItemID(item.ID);
-                        setExactMatch(true);
-                        break;
+                        navigate(`/item/${item.ID}`);
                     }
                 }
+                //TODO: Navigate to item list page
                 setDidSearch(true);
             });
     };
 
-    if (didSearch && !exactMatch) {
+    if (didSearch) {
         return <SearchResultsList results={results} />;
     } else {
         return (
