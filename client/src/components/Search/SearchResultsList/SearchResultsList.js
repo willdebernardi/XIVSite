@@ -22,7 +22,6 @@ function SearchResultsList() {
                 `https://xivapi.com/search?string=${searchItem}`
             );
             setResults(response.data.Results);
-            console.log(results);
             setFirstRender(false);
         };
         fetchItems();
