@@ -4,6 +4,9 @@ import { CssBaseline } from "@mui/material";
 import Search from "./components/Search/Search";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Header from "./components/Header/Header";
+import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ItemResults from "./components/ItemResults/ItemResults";
+import SearchResultsList from "./components/Search/SearchResultsList/SearchResultsList";
 
 const darkTheme = createTheme({
     palette: {
@@ -13,11 +16,17 @@ const darkTheme = createTheme({
 
 function App() {
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-            <Header />
-            <Search />
-        </ThemeProvider>
+        <Router>
+            <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
+                <Header />
+                <Routes>
+                    <Route path="/" element={<Search />} />
+                    <Route path="/item/:id" element={<ItemResults />} />
+                    <Route path="/search/:name" element={<SearchResultsList />} />
+                </Routes>
+            </ThemeProvider>
+        </Router>
     );
 }
 
