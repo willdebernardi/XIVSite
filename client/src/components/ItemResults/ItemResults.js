@@ -36,7 +36,7 @@ function ItemResults() {
     if (isLoading) {
         return (
             <div className="loadingContainer">
-                <Typography varinat="h1">Loading...</Typography>
+                <Typography variant="h1">Loading...</Typography>
             </div>
         );
     } else {
