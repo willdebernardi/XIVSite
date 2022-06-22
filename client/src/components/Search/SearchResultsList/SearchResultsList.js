@@ -21,7 +21,9 @@ function SearchResultsList() {
             let response = await axios.get(
                 `https://xivapi.com/search?string=${searchItem}`
             );
-            setResults(response.data.Results);
+            setResults(
+                response.data.Results.filter((item) => item.UrlType.toLowerCase() === "item")
+            );
             setFirstRender(false);
         };
         fetchItems();
@@ -41,6 +43,13 @@ function SearchResultsList() {
             setIsLoading(false);
         }
     }, [results]);
+
+    let CreateCards = () =>
+        results.map((item) => {
+            if (item.UrlType === "item") {
+                return <ResultsCard item={item} />;
+            }
+        });
 
     return (
         <Grid
