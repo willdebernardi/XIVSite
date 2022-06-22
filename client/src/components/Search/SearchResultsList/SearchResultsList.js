@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import ResultsCard from "./ResultsCard";
 import axios from "axios";
+import SearchBar from "../SearchBar/SearchBar";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
@@ -9,7 +10,6 @@ import { Typography } from "@mui/material";
 function SearchResultsList() {
     const [results, setResults] = useState(null);
     const [firstRender, setFirstRender] = useState(true);
-    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
     let params = useParams();
@@ -22,12 +22,14 @@ function SearchResultsList() {
                 `https://xivapi.com/search?string=${searchItem}`
             );
             setResults(
-                response.data.Results.filter((item) => item.UrlType.toLowerCase() === "item")
+                response.data.Results.filter(
+                    (item) => item.UrlType.toLowerCase() === "item"
+                )
             );
             setFirstRender(false);
         };
         fetchItems();
-    }, []);
+    }, [params.name]);
 
     useEffect(() => {
         if (!firstRender) {
@@ -40,16 +42,8 @@ function SearchResultsList() {
                     navigate(`/item/${item.ID}`, { replace: true });
                 }
             }
-            setIsLoading(false);
         }
     }, [results]);
-
-    let CreateCards = () =>
-        results.map((item) => {
-            if (item.UrlType === "item") {
-                return <ResultsCard item={item} />;
-            }
-        });
 
     return (
         <Grid
@@ -60,7 +54,7 @@ function SearchResultsList() {
             sx={{ padding: "10px" }}
         >
             <Grid item xs={3} textAlign={"center"}>
-                Hello World!
+                <SearchBar />
             </Grid>
             {!results && (
                 <Grid item component={"h2"} textAlign={"center"}>
@@ -68,6 +62,11 @@ function SearchResultsList() {
                 </Grid>
             )}
             {results && results.map((item) => <ResultsCard item={item} />)}
+            {results && !results.length && (
+                <Grid item component={"h2"} textAlign={"center"}>
+                    No results found
+                </Grid>
+            )}
         </Grid>
     );
 }
