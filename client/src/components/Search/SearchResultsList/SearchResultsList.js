@@ -42,16 +42,24 @@ function SearchResultsList() {
         }
     }, [results]);
 
-    let resultsCards = results.map((item) => {
-        if (item.UrlType.toLowerCase() === "item") {
-            return <ResultsCard item={item} />;
+    let resultsCards = () => {
+        console.log(results.length);
+        if(results.length === 0) {
+            return <Grid item>
+                    <Typography variant="h2">No Results Found.</Typography>
+                </Grid>
         }
-    });
+        results.map((item) => {
+            if (item.UrlType.toLowerCase() === "item") {
+                return <ResultsCard item={item} />;
+            }
+        });
+    }
 
     return ( 
         isLoading ? <h1>Loading...</h1> :
         <Grid container columns={3} spacing={1} sx={{ padding: "10px" }}>
-            {resultsCards}
+            {resultsCards()}
         </Grid>
     );
 }
