@@ -20,7 +20,7 @@ function SearchBar() {
             <TextField
                 id="search"
                 type="search"
-                placeholder="Pee pee poo poo"
+                placeholder="Search"
                 fullWidth
                 InputProps={{
                     endAdornment: (
